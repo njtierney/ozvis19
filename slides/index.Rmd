@@ -191,7 +191,7 @@ include_graphics("imgs/kanizsa-triangle.png")
 
 ---
 
-## Background: Undergraduate
+## Background: Honours
 
 .left-code.medium.center[
 ```{r christina-lee, out.width = "60%"}
@@ -209,6 +209,27 @@ Christina Lee
 ???
 
 I discovered an interest in public health and statistics.
+
+---
+
+## Background: PhD
+
+.left-code.medium.center[
+```{r kerrie, out.width = "60%"}
+include_graphics("imgs/kerrie.jpg")
+```
+
+Kerrie Mengersen
+
+]
+
+.right-plot.medium[
+- _Statistical Approaches to Revealing Structure in Complex Health Data_
+- Exploring missing values
+- Bayesian Models of people's health over time
+- Geospatial statistics of cardiac arrest
+- Fun, applied, real data, real people
+]
 
 ---
 
@@ -235,6 +256,21 @@ I started a PhD in statistics at QUT, under (now distinguished) Professor Kerrie
 - There were several things that I noticed:
   - There were equations, but not as many clear-cut, black and white answers
   
+
+---
+
+## `r emo::ji("scream")` Missing Values
+
+```{r phd-missing}
+include_graphics("imgs/fig-1-miss-map-1.png")
+```
+  
+???
+
+## Journey of Analytic Discovery
+
+- map
+
 ---
 
 ## Background: PhD
@@ -424,6 +460,14 @@ Tierney, NJ. Cook, D. "Expanding tidy data principles to facilitate missing data
 gg_miss_var(airquality)
 ```
 
+---
+
+### `naniar::gg_miss_var(airquality, facet = Month)`
+
+```{r gg-miss-var-facet, fig.height = 3.5, fig.width = 8, out.width = "150%"}
+gg_miss_var(airquality, facet = Month)
+```
+
 
 ---
 
@@ -583,7 +627,7 @@ include_graphics("gifs/noodle-explode.gif")
 .pull-left.large[
 - Overplotting
 - We don't see the individuals
-- We could look at 153 individual plots, but this doesn't help.
+- We could look at 144 individual plots, but this doesn't help.
 ]
 
 .pull-right[
@@ -859,10 +903,22 @@ gg_sample_keys
 
 # Sample `n` rows with `sample_n()`
 
+```{r create-sample-n, echo = FALSE}
+set.seed(2019-11-21)
+heights_sample_n <- heights %>% sample_n(5)
+```
+
+
 --
 
-```{r show-sample-n, echo = TRUE}
+```{r show-sample-n, echo = TRUE, eval = FALSE}
 heights %>% sample_n(5)
+```
+
+--
+
+```{r print-sample-n}
+heights_sample_n
 ```
 
 
@@ -872,7 +928,7 @@ heights %>% sample_n(5)
 # Sample `n` rows with `sample_n()`
 
 ```{r plot-sample-n}
-heights %>% sample_n(5) %>% gg_heights() + geom_point()
+heights_sample_n %>% gg_heights() + geom_point()
 ```
 
 
@@ -881,7 +937,7 @@ heights %>% sample_n(5) %>% gg_heights() + geom_point()
 # Sample `n` rows with `sample_n()`
 
 ```{r show-sample-n-again}
-heights %>% sample_n(5)
+heights_sample_n
 ```
 
 --
@@ -973,7 +1029,7 @@ gg_heights(heights) +
 
 .large[
 - How many keys per facets?
-  - 153 keys into 16 facets = 9 each
+  - 144 keys into 16 facets = 9 each
 ]
 
 --
@@ -1007,6 +1063,14 @@ gg_heights(heights) +
 You are distracted.
 
 ]
+
+???
+
+- Task one
+
+- Task one being overshadowed slightly by minor task 1
+- Task one being overshadowed slightly by minor task 2
+- Task one being overshadowed slightly by minor task 3
 
 ---
 
@@ -1058,7 +1122,7 @@ It's not that we should be better, rather **with better tools we could be more e
 --
 
 .large[
-We need to make things as easy as reasonable, with the least amount of distraction.
+We need to make things **as easy as reasonable**, with the least amount of distraction.
 ]
 
 
@@ -1228,7 +1292,7 @@ You can still get at data and do manipulations
 
 --
 
-.pull-left.large[
+.left-code.large[
 
 `as_tsibble()`
 
@@ -1243,7 +1307,7 @@ You can still get at data and do manipulations
 --
 
 
-.pull-right.medium[
+.right-plot.large[
 
 Store useful information
 
@@ -1260,7 +1324,7 @@ View all subsamples
 
 ## ~~Problem #1: How do I look at some of the data?~~
 
-.pull-left.large[
+.left-code.large[
 
 `as_tsibble()`
 
@@ -1272,8 +1336,7 @@ View all subsamples
 
 ]
 
-
-.pull-right.medium[
+.right-plot.large[
 
 Store useful information
 
@@ -1617,7 +1680,7 @@ heights %>%
 
 ---
 
-## Does my data only increase or decrease? `feat_monotonic`
+## Does it only increase or decrease? `feat_monotonic`
 
 ```{r features-feat-monotonic, echo = TRUE}
 heights %>%
@@ -1737,7 +1800,25 @@ gg_heights_fit
 
 ---
 
-## Look at **some** subsamples?
+## Look at subsamples?
+
+--
+
+```{r subsamples-heights}
+heights_aug %>% 
+  sample_n_keys(5) %>% 
+ggplot(aes(x = year,
+           y = pred,
+           group = country)) + 
+  geom_line() 
+```
+
+
+---
+
+## Look at **many** subsamples?
+
+--
 
 ```{r heights-fit-facet-sample, echo = TRUE, out.width = "70%"}
 gg_heights_fit + facet_sample()
@@ -1753,7 +1834,7 @@ gg_heights_fit + facet_strata()
 
 ---
 
-## Look at **all subsamples** arranged by residuals?
+## Look at **all** subsamples **along** residuals?
 
 ```{r heights-fit-facet-strata-res, echo = TRUE, out.width = "70%"}
 gg_heights_fit + facet_strata(along = -res)
@@ -1763,48 +1844,35 @@ gg_heights_fit + facet_strata(along = -res)
 
 # Look at the predictions with the data?
 
-.left-code[
 ```{r small-sample, eval = FALSE, echo = TRUE}
 set.seed(2019-11-13)
 heights_sample <- 
 heights_aug %>%
   sample_n_keys(size = 9) %>% #<< sample the data
-  ggplot(aes(
-    x = year,
-    y = pred,
-    group = country)) + 
+  ggplot(aes(x = year,
+             y = pred,
+             group = country)) + 
   geom_line() +
   facet_wrap(~country)
 
 heights_sample
 ```  
-]
-
-.right-plot[
-```{r small-sample-out, ref.label = 'small-sample', echo = FALSE, out.width = "100%"}
-
-```
-]
 
 ---
 
 # Look at the predictions with the data?
 
-.left-code[
-```{r small-sample-add-real-data, eval = FALSE, echo = TRUE}
-heights_sample +
-  geom_point(
-    aes(
-      y = height_cm #<< add the original data
-      ))  
-```  
-]
-
-.right-plot[
-```{r small-sample-add-real-data-out, ref.label = 'small-sample-add-real-data', echo = FALSE, out.width = "100%"}
+```{r small-sample-out, ref.label = 'small-sample', echo = FALSE, out.width = "100%"}
 
 ```
-]
+
+---
+
+# Look at the predictions with the data?
+
+```{r small-sample-add-real-data, echo = TRUE, out.width = "70%"}
+heights_sample + geom_point(aes(y = height_cm))
+```  
 
 ---
 
@@ -1847,28 +1915,29 @@ heights_near <- heights_aug %>%
 
 ---
 
-# Show data by joining it with predictions, to explore the spread of predictions.
+## Show data by joining it with residuals, to explore spread
 
-.left-code[
-```{r plot-join-aug, eval = FALSE, echo = TRUE}
-left_join(heights_near,
+```{r plot-join-aug}
+library(stickylabeller)
+
+heights_near_aug <- left_join(heights_near,
           heights_aug,
-          by = "country") %>%
-  ggplot(aes(x = year,
+          by = "country")
+
+gg_heights_near <-
+ggplot(heights_near_aug,
+       aes(x = year,
              y = pred,
              group = country,
-             colour = stat)) + 
+             colour = country)) + 
   geom_line() + 
   geom_point(aes(y = height_cm)) + 
-  facet_wrap(~country)
+  facet_wrap(~stat + country,
+             labeller = label_glue("Country: {country} \nNearest to {stat} residual")) + 
+  theme(legend.position = "none")
+
+gg_heights_near
 ```  
-]
-
-.right-plot[
-```{r plot-join-aug-out, ref.label = 'plot-join-aug', echo = FALSE, out.width = "100%"}
-
-```
-]
 
 ---
 
@@ -1891,10 +1960,11 @@ left_join(heights_near,
 ## Problem #2: How do I find **interesting** observations?
 
 .large[
-5. Summarise with `features` to find interesting observations
-6. Reconnect summaries to data with a **left join**
+1. Decide what features are interesting
+2. Summarise down to one observation
+3. Decide how to filter
+4. Join this feature back to the data
 ]
-
 
 ---
 
