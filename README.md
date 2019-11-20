@@ -1,10 +1,10 @@
 # Exploring and understanding the individual experience from longitudinal data, or "How to make better spaghetti (plots)
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/6a222846-c210-4cdb-9430-2932137b38b8/deploy-status)](https://app.netlify.com/sites/njt-anu19/deploys)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/521ee1b4-3701-461a-bbd8-e6a65f0ad510/deploy-status)](https://app.netlify.com/sites/njt-ozvis/deploys)
 
 # Learn more at [brolgar.njtierney.com](http://brolgar.njtierney.com/)
 
-# Slide available at [bit.ly/njt-anu](https://bit.ly/njt-anu)
+# Slide available [here](https://njt-ozvis.netlify.com/)
 
 # Abstract
 
